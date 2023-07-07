@@ -1,0 +1,35 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_multiple_files = true;
+option java_package = "org.watson.demos";
+option java_outer_classname = "GreetingProto";
+
+service GreetingController {
+  rpc Get (Identifiable) returns (stream GreetingResponse) {}
+  rpc GetAll (GreetingFilter) returns (stream GreetingResponse) {}
+
+  rpc Create (stream GreetingRequest) returns (stream GreetingResponse) {}
+  rpc Delete (Identifiable) returns (google.protobuf.Empty) {}
+}
+
+message GreetingRequest {
+  string content = 1;
+  optional string locale = 2;
+}
+
+message GreetingResponse {
+  string content = 1;
+  string locale = 2;
+  string id = 3;
+  google.protobuf.Timestamp created = 4;
+}
+
+message Identifiable {
+  repeated string id = 1;
+}
+
+message GreetingFilter {
+  optional string locale = 1;
+}
